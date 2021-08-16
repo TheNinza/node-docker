@@ -1,0 +1,31 @@
+services:
+  nginx-container:
+    image: nginx
+    ports:
+      - "3000:80"
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+
+  node-app-container:
+    build:
+      context: .
+      args:
+        NODE_ENV: development
+    environment:
+      - PORT=3000
+    depends_on:
+      - mongo-container
+
+  mongo-container:
+    image: mongo
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=nikhil
+      - MONGO_INITDB_ROOT_PASSWORD=example
+    volumes:
+      - mongo-db:/data/db
+
+  redis-container:
+    image: redis
+
+volumes:
+  mongo-db:
