@@ -3,6 +3,10 @@ services:
     ports:
       - "3000:80"
   node-app-container:
+    build:
+      context: .
+      args:
+        NODE_ENV: development
     volumes:
       - ./:/app:ro
       - /app/node_modules
